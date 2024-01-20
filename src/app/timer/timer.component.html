@@ -1,0 +1,9 @@
+<div class="timer bg-dark rounded-4 p-3">
+    <div class="d-flex justify-content-between">
+        <h3 class="text-light">{{ timerName }}</h3>
+        <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+    </div>
+    <p class="text-light">{{ formatTime(remainingTime) }}</p>
+    <button class="btn btn-primary" (click)="start()" [disabled]="isActive">Start</button>
+    <button class="btn btn-danger" (click)="reset()" [disabled]="!isActive">Reset</button>
+</div>

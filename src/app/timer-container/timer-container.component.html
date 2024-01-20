@@ -1,0 +1,15 @@
+<div class="container-fluid bg-danger">
+    <div class="d-flex flex-column align-items-center justify-content-center full-height">
+        <div class="timer-container">
+            <app-timer *ngFor="let timer of timers" [timerName]="timer.name" [duration]="timer.duration" [loop]="timer.loop"
+                (delete)="onTimerDelete(timer.name)"></app-timer>
+            <div class="add-timer-form">
+                <input type="text" placeholder="Timer Name" [(ngModel)]="newTimerName">
+                <input type="number" placeholder="Duration (sec)" [(ngModel)]="newTimerDuration">
+                <input type="checkbox" [(ngModel)]="newTimerLoop"> Loop
+                <button class="btn btn-success" (click)="addTimer(newTimerName, newTimerDuration, newTimerLoop)">Add
+                    Timer</button>
+            </div>
+        </div>
+    </div>    
+</div>
