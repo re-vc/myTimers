@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "myTimers:build:production"
+              "buildTarget": "myTimers:build:production"
             },
             "development": {
-              "browserTarget": "myTimers:build:development"
+              "buildTarget": "myTimers:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +72,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "myTimers:build"
+            "buildTarget": "myTimers:build"
           }
         },
         "test": {

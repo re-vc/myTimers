@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimerService } from '../timer.service';
-import { Timer } from '../models/timer.model'; // Import Timer interface if defined in a separate file
+import { Timer } from '../models/timer.model';
 
 @Component({
   selector: 'app-timer-container',
@@ -16,7 +16,9 @@ export class TimerContainerComponent implements OnInit {
   constructor(private timerService: TimerService) {}
 
   ngOnInit(): void {
-    this.timerService.getTimers().subscribe(timers => this.timers = timers);
+    this.timerService.getTimers().subscribe((timers: Timer[]) => {
+      this.timers = timers;
+    });
   }
 
   addTimer(name: string, duration: number, loop: boolean): void {

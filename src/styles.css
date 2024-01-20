@@ -1,4 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 .full-height {
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
   }
+
+.nunito {
+  font-family: 'Nunito', sans-serif;
+}
+
+.roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.timer {
+  text-align: center;
+  font-weight: bold;
+  font-size: 5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.bg-main {
+  background-color: #D43E6B;
+}
+
+.btn-c-primary {
+  background-color: #35CE8D;
+  color: #fff;
+}
+
+.btn-c-primary:hover {
+  background-color: rgb(33, 186, 121);
+  color: #fff;
+}
+
+.btn-c-danger {
+  background-color: #DECDF5;
+  color: #fff;
+}
+
+.btn-c-danger:hover {
+  background-color: rgb(202, 185, 225);
+  color: #fff;
+}

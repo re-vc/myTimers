@@ -1,5 +1,6 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, HostListener } from '@angular/core';
 import { TimerService } from '../timer.service';
+import { Timer } from '../models/timer.model';
 
 @Component({
   selector: 'app-timer',
@@ -14,20 +15,27 @@ export class TimerComponent implements OnInit {
   remainingTime!: number;
   isActive: boolean = false;
 
+  isLargeScreen: boolean = window.innerWidth > 768;
+
   @Output() delete = new EventEmitter<string>();
 
   constructor(private timerService: TimerService) {}
 
   ngOnInit(): void {
     this.remainingTime = this.duration;
-    this.timerService.getTimers().subscribe(timers => {
-      const currentTimer = timers.find(timer => timer.name === this.timerName);
+    this.timerService.getTimers().subscribe((timers: Timer[]) => {
+      const currentTimer = timers.find((timer: Timer) => timer.name === this.timerName);
       if (currentTimer) {
         this.remainingTime = currentTimer.remaining;
         this.isActive = currentTimer.isActive;
       }
     });
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isLargeScreen = window.innerWidth > 768;
+  }  
 
   formatTime(seconds: number): string {
     const hours = Math.floor(seconds / 3600);
