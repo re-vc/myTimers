@@ -10,10 +10,10 @@ import { Timer } from '../models/timer.model';
 export class TimerContainerComponent implements OnInit {
   timers!: Timer[];
   newTimerName: string = '';
-  newTimerDuration: number = 180;
-  newTimerLoop: boolean = true;
+  newTimerDuration: number | null = null; // Allow null for resetting to show placeholder
+  newTimerLoop: boolean = false;
 
-  constructor(private timerService: TimerService) {}
+  constructor(private timerService: TimerService) { }
 
   ngOnInit(): void {
     this.timerService.getTimers().subscribe((timers: Timer[]) => {
@@ -21,12 +21,16 @@ export class TimerContainerComponent implements OnInit {
     });
   }
 
-  addTimer(name: string, duration: number, loop: boolean): void {
-    if (name && duration > 0) {
+  toggleLoop() {
+    this.newTimerLoop = !this.newTimerLoop;
+  }
+
+  addTimer(name: string, duration: number | null, loop: boolean): void {
+    if (name && duration != null && duration > 0) {
       this.timerService.addTimer(name, duration, loop);
       this.newTimerName = '';
-      this.newTimerDuration = 180;
-      this.newTimerLoop = true;
+      this.newTimerDuration = null;
+      this.newTimerLoop = false;
     }
   }
 

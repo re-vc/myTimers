@@ -19,7 +19,7 @@ export class TimerService {
   private timers: BehaviorSubject<Timer[]> = new BehaviorSubject<Timer[]>([]);
 
   constructor() {
-    this.timers = new BehaviorSubject<Timer[]>(this.loadTimers());    
+    this.timers = new BehaviorSubject<Timer[]>(this.loadTimers());
   }
 
   getTimers(): Observable<Timer[]> {
@@ -31,6 +31,7 @@ export class TimerService {
     const updatedTimers = [...this.timers.getValue(), newTimer];
     this.timers.next(updatedTimers);
     this.saveTimers(updatedTimers);
+    this.sortTimers();
   }
 
   removeTimer(timerName: string): void {
@@ -106,9 +107,48 @@ export class TimerService {
     this.saveTimers(updatedTimers);
   }
 
+  private splitNameAndNumber(name: string): { text: string, number: number } {
+    const match = name.match(/([^\d]+)\s*(\d*)/);
+    return {
+      text: match ? match[1] : name,
+      number: match && match[2] ? parseInt(match[2], 10) : -1
+    };
+  }
+
+  private compareNames(a: string, b: string): number {
+    const splitA = this.splitNameAndNumber(a);
+    const splitB = this.splitNameAndNumber(b);
+
+    // First compare the textual part
+    const textCompare = splitA.text.localeCompare(splitB.text);
+    if (textCompare !== 0) {
+      return textCompare;
+    }
+
+    // If textual parts are equal, compare the numerical part
+    return splitA.number - splitB.number;
+  }
+
   private sortTimers(): void {
-    const sortedTimers = this.timers.getValue().sort((a, b) => a.remaining - b.remaining);
+    const sortedTimers = this.timers.getValue().sort((a, b) => {
+      // First, compare by remaining time
+      if (a.remaining !== b.remaining) {
+        return a.remaining - b.remaining;
+      }
+      // Then, use compareNames for name comparison
+      return this.compareNames(a.name, b.name);
+    });
     this.timers.next(sortedTimers);
+  }
+
+  private sortBeforeEmit(timers: Timer[]): Timer[] {
+    return timers.sort((a, b) => {
+      if (a.remaining !== b.remaining) {
+        return a.remaining - b.remaining;
+      }
+      // Use compareNames for name comparison
+      return this.compareNames(a.name, b.name);
+    });
   }
 
   private notifyCompletion(timerName: string): void {
@@ -122,11 +162,14 @@ export class TimerService {
   private loadTimers(): Timer[] {
     const storedTimers = localStorage.getItem('timers');
     if (storedTimers) {
-      const timers: Timer[] = JSON.parse(storedTimers).map((timer: Timer) => {
-        return { ...timer, isActive: false, subscription: undefined };        
+      let timers: Timer[] = JSON.parse(storedTimers).map((timer: Timer) => {
+        return { ...timer, isActive: false, subscription: undefined };
       });
+      // Sort timers after loading from storage
+      timers = this.sortBeforeEmit(timers);
       return timers;
     }
     return [];
   }
+
 }

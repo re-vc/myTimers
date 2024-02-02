@@ -1,15 +1,20 @@
 <div class="container-fluid bg-main">
     <div class="d-flex flex-column align-items-center justify-content-center full-height">
-        <div class="timer-container">
-            <app-timer *ngFor="let timer of timers" [timerName]="timer.name" [duration]="timer.duration" [loop]="timer.loop"
-                (delete)="onTimerDelete(timer.name)"></app-timer>
-            <div class="add-timer-form">
-                <input type="text" placeholder="Timer Name" [(ngModel)]="newTimerName">
-                <input type="number" placeholder="Duration (sec)" [(ngModel)]="newTimerDuration">
-                <input type="checkbox" [(ngModel)]="newTimerLoop"><i class="bi bi-arrow-repeat"></i>
-                <button class="btn btn-success" (click)="addTimer(newTimerName, newTimerDuration, newTimerLoop)">Add
-                    Timer</button>
+        <div class="col-12 col-lg-6 col-xl-4">
+            <div class="form-group d-flex gap-2 my-2">
+                <input type="text" class="form-control rounded-3" placeholder="Timer Name" [(ngModel)]="newTimerName">
+                <input type="number" class="form-control rounded-3" placeholder="Duration (sec)"
+                    [(ngModel)]="newTimerDuration">
+                <button class="btn rounded-3" [class.btn-light]="newTimerLoop" [class.btn-dark]="!newTimerLoop"
+                    (click)="toggleLoop()">
+                    <i class="bi bi-arrow-repeat"></i>
+                </button>
+                <button class="btn btn-dark rounded-3" (click)="addTimer(newTimerName, newTimerDuration, newTimerLoop)">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
             </div>
+            <app-timer *ngFor="let timer of timers" [timerName]="timer.name" [duration]="timer.duration"
+                [loop]="timer.loop" (delete)="onTimerDelete(timer.name)"></app-timer>
         </div>
-    </div>    
+    </div>
 </div>

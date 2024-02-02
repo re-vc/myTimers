@@ -19,7 +19,7 @@ export class TimerComponent implements OnInit {
 
   @Output() delete = new EventEmitter<string>();
 
-  constructor(private timerService: TimerService) {}
+  constructor(private timerService: TimerService) { }
 
   ngOnInit(): void {
     this.remainingTime = this.duration;
@@ -35,16 +35,16 @@ export class TimerComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.isLargeScreen = window.innerWidth > 768;
-  }  
+  }
 
   formatTime(seconds: number): string {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
-  
+
     const formattedMinutes = minutes.toString().padStart(hours > 0 ? 2 : 1, '0');
     const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
-  
+
     return hours > 0
       ? `${hours}:${formattedMinutes}:${formattedSeconds}`
       : `${formattedMinutes}:${formattedSeconds}`;

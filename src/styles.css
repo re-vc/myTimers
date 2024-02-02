@@ -30,16 +30,21 @@
 }
 
 .btn-c-primary:hover {
-  background-color: rgb(33, 186, 121);
+  background-color: #1e7b54;
   color: #fff;
 }
 
 .btn-c-danger {
-  background-color: #DECDF5;
+  background-color: #874f78;
   color: #fff;
 }
 
 .btn-c-danger:hover {
-  background-color: rgb(202, 185, 225);
+  background-color: #503048;
   color: #fff;
+}
+
+.rounded-bottom-0-c {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
